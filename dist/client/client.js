@@ -3,8 +3,9 @@ import { OrbitControls } from '/jsm/controls/OrbitControls';
 // initialize core components
 var scene = new THREE.Scene();
 var aspect = window.innerWidth / window.innerHeight;
-var camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
-camera.position.set(0, 0, 0);
+var camera = new THREE.PerspectiveCamera(55, aspect, 45, 30000);
+// camera.position.set(0, 0, 0)
+camera.position.set(1200, -250, 2000);
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -28,18 +29,13 @@ function onWindowResize() {
 }
 window.addEventListener('resize', onWindowResize, false);
 ///////////////////////////////////////////////////////////////////////////////
-var materials = [
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_front.jpg") }),
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_bottom.jpg") }),
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_down.jpg") }),
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_up.jpg") }),
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_left.jpg") }),
-    new THREE.MeshBasicMaterial({ map: loader.load("./assets/test_right.jpg") })
-];
-var geometry = new THREE.BoxGeometry();
-var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// var material = new THREE.MeshBasicMaterial({ map: materials, side: THREE.BackSide });
-const sphereGeo = new THREE.SphereGeometry(2.0, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+const skyboxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
+var x = new THREE.MeshBasicMaterial({ map: loader.load("/assets/space.jpg") });
+x.side = THREE.BackSide;
+var materials = [x, x, x, x, x, x];
+const skybox = new THREE.Mesh(skyboxGeo, materials);
+scene.add(skybox);
+const sphereGeo = new THREE.SphereGeometry(200, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
 const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: false });
 var sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
 scene.add(sphere);
@@ -47,9 +43,13 @@ animationTasks.push(() => {
     sphere.rotation.x += 0.01;
     sphere.rotation.y += 0.01;
 });
+animationTasks.push(() => {
+    skybox.rotation.x += 0.001;
+    skybox.rotation.y += 0.001;
+});
 // working sphere - NO TOUCHY
 // const geometry = new THREE.SphereGeometry(2.0, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2)
 // const material = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: false })
 // const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
 // scene.add(cube)
-camera.position.z = 10;
+// camera.position.z = 10

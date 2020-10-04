@@ -12,3 +12,4 @@ https://github.com/mrdoob/three.js/blob/master/examples/webgl_multiple_scenes_co
 https://github.com/mrdoob/three.js/blob/master/examples/webgl_lod.html
 https://github.com/mrdoob/three.js/blob/master/examples/webgl_lines_sphere.html
 https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_terrain_fog.html
+https://dev.to/codypearce/how-to-create-a-skybox-with-three-js-2bn8
