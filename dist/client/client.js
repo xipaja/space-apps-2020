@@ -1,55 +1,72 @@
 import * as THREE from '/build/three.module.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls';
+import { Unit } from './Unit.js';
 // initialize core components
-var scene = new THREE.Scene();
-var aspect = window.innerWidth / window.innerHeight;
-var camera = new THREE.PerspectiveCamera(55, aspect, 45, 30000);
-// camera.position.set(0, 0, 0)
-camera.position.set(1200, -250, 2000);
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-var loader = new THREE.TextureLoader();
-var controls = new OrbitControls(camera, renderer.domElement);
+const Scene = new THREE.Scene();
+const Camera = new THREE.PerspectiveCamera(55 /* degrees */, window.innerWidth / window.innerHeight, Unit.FromAstroUnits(45), Unit.FromAstroUnits(30000));
+Camera.position.set(Unit.FromAstroUnits(1200), Unit.FromAstroUnits(-250), Unit.FromAstroUnits(2000));
+const Renderer = new THREE.WebGLRenderer();
+Renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(Renderer.domElement);
+const loader = new THREE.TextureLoader();
+const Controls = new OrbitControls(Camera, Renderer.domElement);
 // initialize and start animate loop
-var animationTasks = [];
-var animate = () => {
+const animationTasks = [];
+function animate() {
     requestAnimationFrame(animate);
     animationTasks.forEach(task => task());
-    controls.update();
-    renderer.render(scene, camera);
-};
+    Controls.update();
+    Renderer.render(Scene, Camera);
+}
 animate();
 // handle window resize event
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.render(scene, camera);
+window.addEventListener('resize', () => {
+    Camera.aspect = window.innerWidth / window.innerHeight;
+    Camera.updateProjectionMatrix();
+    Renderer.setSize(window.innerWidth, window.innerHeight);
+    Renderer.render(Scene, Camera);
+}, false);
+function initSkybox() {
+    const skyboxGeometry = new THREE.BoxGeometry(Unit.FromAstroUnits(10000), Unit.FromAstroUnits(10000), Unit.FromAstroUnits(10000));
+    const skyboxMaterial = new Array(6).fill(new THREE.MeshBasicMaterial({
+        map: loader.load("/assets/space.jpg"),
+        side: THREE.BackSide
+    }));
+    const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+    Scene.add(skybox);
+    animationTasks.push(() => {
+        /* radians per frame */
+        skybox.rotation.x += 0.001;
+        skybox.rotation.y += 0.001;
+    });
 }
-window.addEventListener('resize', onWindowResize, false);
-///////////////////////////////////////////////////////////////////////////////
-const skyboxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
-var x = new THREE.MeshBasicMaterial({ map: loader.load("/assets/space.jpg") });
-x.side = THREE.BackSide;
-var materials = [x, x, x, x, x, x];
-const skybox = new THREE.Mesh(skyboxGeo, materials);
-scene.add(skybox);
-const sphereGeo = new THREE.SphereGeometry(200, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: false });
-var sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
-scene.add(sphere);
-animationTasks.push(() => {
-    sphere.rotation.x += 0.01;
-    sphere.rotation.y += 0.01;
-});
-animationTasks.push(() => {
-    skybox.rotation.x += 0.001;
-    skybox.rotation.y += 0.001;
-});
-// working sphere - NO TOUCHY
-// const geometry = new THREE.SphereGeometry(2.0, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2)
-// const material = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: false })
-// const cube: THREE.Mesh = new THREE.Mesh(geometry, material)
-// scene.add(cube)
-// camera.position.z = 10
+initSkybox();
+function initSphere() {
+    const sphereGeo = new THREE.SphereGeometry(Unit.FromAstroUnits(300), 50, 50);
+    const sphereMaterial = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        wireframe: false
+    });
+    const sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
+    Scene.add(sphere);
+    animationTasks.push(() => {
+        /* radians per frame */
+        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+    });
+}
+initSphere();
+function initBlackHole() {
+    const accretionDiskGeo = new THREE.TorusGeometry(Unit.FromAstroUnits(400), Unit.FromAstroUnits(100), 16, 100);
+    const accretionDiskMaterial = new THREE.MeshBasicMaterial({
+        map: loader.load("/assets/blackhole.jpg")
+    });
+    const accretionDisk = new THREE.Mesh(accretionDiskGeo, accretionDiskMaterial);
+    Scene.add(accretionDisk);
+    animationTasks.push(() => {
+        /* radians per frame */
+        accretionDisk.rotation.x += 0.01;
+        accretionDisk.rotation.y += 0.01;
+    });
+}
+initBlackHole();
