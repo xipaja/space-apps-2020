@@ -22,5 +22,5 @@ https://threejsfundamentals.org/threejs/lessons/threejs-primitives.html
 
 # Thank you for visiting Orbit!
 
-![Gif of interface](https://drive.google.com/file/d/1J40cT8_BJagnEph6mNftE-pAOAbbs_up/view?usp=sharing) 
+![Gif of interface](https://drive.google.com/file/d/1u7enGES6EM3gq-LFjhvDZw6V4_4oHSyK/preview)
 
