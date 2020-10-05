@@ -2,13 +2,14 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css"/>
     <title>Orbit</title>
-    <link rel="shortcut icon" href="#">
+    <link rel="shortcut icon" href="#"/>
 </head>
 
 <body>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
 
     <script>
         var app = angular.module('myApp', []);
@@ -17,60 +18,60 @@
                 ID:    93248103241024\n\
                 Name:  SACSHP J182624.0-860753\n\
                 Start: 2008-10-01T17:04:32\n\
-                End:   2008-10-01T18:05:26\n\
                 BII:   17h 45m 40.0409s\n\
                 LII:   −29° 00′ 28.118\n\
                 DEC:   -86 07 53 | ERR: 1.44\n\
+                End:   2008-10-01T18:05:26\n\
                 RA:    18 26 24.0 | ERR: 22.68";
         });
     </script>
 
     <div ng-app="myApp" ng-controller="myCtrl" class="overlay">
 
-        <div id="organization" class="overlay-entity organization-entity">
-            <div class="overlay-entity-header">
-                Swift
-            </div>
-        </div>
-
-        <div id="missions" class="overlay-entity missions-entity">
-            <div class="overlay-entity-header">
-               Choose a mission
-            </div>
-
-            <div class="overlay-entity-content">
-             </div>
-
-            <div class="dropdown overlay-entity-content">
-                <button class="dropbtn">Missions</button>
-                <div class="dropdown-content">
-                  <a href="#">Swift</a>
-                  <a href="#">XMM</a>
-                  <a href="#">NuSTAR</a>
+        <div class="row">
+            <div class="col">
+                <div id="data" class="overlay-entity data-entity">
+                    <div class="overlay-entity-header">Data</div>
+                    <div class="overlay-entity-content" style="white-space: pre-line">
+                        {{data1}}
+                    </div>
                 </div>
-              </div>
-        </div>
+            </div>
+        
+            <div class="col">
+                <div id="organization" class="overlay-entity organization-entity">
+                    <div class="overlay-entity-header">
+                        Visualization | Data Table
+                    </div>
+                    <div id="switch-div">
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>            
+                </div>
 
+                <div id="missions" class="overlay-entity missions-entity">
+                    <div class="overlay-entity-header">Choose a mission</div>
+                    <div class="overlay-entity-content"></div>
+                    <div class="dropdown overlay-entity-content">
+                        <button class="dropbtn">Missions</button>
+                        <div class="dropdown-content">
+                        <a href="#">Swift</a>
+                        <a href="#">XMM</a>
+                        <a href="#">NuSTAR</a>
+                    </div>
+                </div>
 
-        <div class="desc overlay-entity">
-            <div class="overlay-entity-header">
-                MISSION DESCRIPTION
-             </div>
+            </div>
 
-             <div>
-                Swift is a first-of-its-kind multi-wavelength observatory dedicated to the study of gamma-ray burst (GRB) science. Its three instruments work together to observe GRBs and afterglows in the gamma-ray, X-ray, ultraviolet, and optical wavebands. (https://swift.gsfc.nasa.gov/about_swift/) </div>
-        </div>
-
-        <div id="data" class="overlay-entity data-entity">
-            <div class="overlay-entity-header">Data</div>
-
-            <div class="overlay-entity-content" style="white-space: pre-line">
-                {{data1}}
+            <div class="desc overlay-entity">
+                <div class="overlay-entity-header">MISSION DESCRIPTION</div>
+                <div id="description_subtitle">
+                    Swift is a first-of-its-kind multi-wavelength observatory dedicated to the study of gamma-ray burst (GRB) science. Its three instruments work together to observe GRBs and afterglows in the gamma-ray, X-ray, ultraviolet, and optical wavebands. (https://swift.gsfc.nasa.gov/about_swift/) 
+                </div>
             </div>
         </div>
-
-    </div>
-
     <script type="module" src="client.js"></script>
 </body>
 
