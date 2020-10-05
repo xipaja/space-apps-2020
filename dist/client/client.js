@@ -43,40 +43,28 @@ function initSkybox() {
 }
 initSkybox();
 function initSphere() {
-    const sphereGeo = new THREE.SphereGeometry(Unit.FromAstroUnits(200), 50, 50);
-    const sphereGeo2 = new THREE.SphereGeometry(Unit.FromAstroUnits(200), 50, 50);
+    const sphereGeo = new THREE.SphereGeometry(Unit.FromAstroUnits(500), 50, 50);
     const sphereMaterial = new THREE.MeshBasicMaterial({
         color: 0x000000,
         wireframe: false
     });
     const sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
-    sphere.position.x = 300;
-    const sphere2 = new THREE.Mesh(sphereGeo2, sphereMaterial);
-    sphere.position.x = -300;
     Scene.add(sphere);
-    Scene.add(sphere2);
     const quaternion = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 0.03);
     animationTasks.push(() => {
         // radians per frame
-        sphere.position.applyQuaternion(quaternion);
-        sphere2.position.applyQuaternion(quaternion);
-        // sphere.rotation.x += 0.01
-        // sphere.rotation.y += 0.01
-        // sphere2.rotation.x += 0.01
-        // sphere2.rotation.y += 0.01
-        // sphere.rotation.z +=0.01
-        // sphere2.rotation.z += 0.01
+        // sphere.position.applyQuaternion(quaternion)
+        sphere.rotation.x += 0.01;
     });
 }
 initSphere();
 function initBlackHole() {
-    const accretionDiskGeo = new THREE.TorusGeometry(Unit.FromAstroUnits(500), Unit.FromAstroUnits(200), 16, 100);
-    const testGeo = new THREE.PlaneBufferGeometry(20, 20, 100, 100);
+    const accretionDiskGeo = new THREE.TorusGeometry(Unit.FromAstroUnits(500), Unit.FromAstroUnits(300), 16, 100);
     const accretionDiskMaterial = new THREE.MeshBasicMaterial({
         map: loader.load("/assets/blackhole.jpg")
     });
     const accretionDisk = new THREE.Mesh(accretionDiskGeo, accretionDiskMaterial);
-    accretionDisk.position.x = 100;
+    // accretionDisk.position.x = 100
     Scene.add(accretionDisk);
     animationTasks.push(() => {
         // radians per frame
