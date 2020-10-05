@@ -67,7 +67,7 @@ function initSkybox() {
 
 function initSphere() {
     const sphereGeo = new THREE.SphereGeometry(
-        Unit.FromAstroUnits(500), 50, 50)
+        Unit.FromAstroUnits(300), 50, 50)
 
     const sphereMaterial = new THREE.MeshBasicMaterial({
         color: 0x000000,
@@ -76,31 +76,25 @@ function initSphere() {
     const sphere = new THREE.Mesh(sphereGeo, sphereMaterial)
     Scene.add(sphere)
 
-    const quaternion = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3( 0, 1, 0 ), 0.03);
-
-    animationTasks.push(() => {
-        // radians per frame
-        // sphere.position.applyQuaternion(quaternion)
-        sphere.rotation.x += 0.01
-
-    })
 } initSphere()
 
 function initBlackHole() {
-    const accretionDiskGeo = new THREE.TorusGeometry(
-        Unit.FromAstroUnits(500), Unit.FromAstroUnits(300), 16, 100)
-
     const accretionDiskMaterial = new THREE.MeshBasicMaterial({
-          map: loader.load("/assets/blackhole.jpg")})
+          map: loader.load("/assets/accretionDisk_texture.png")})
 
-    const accretionDisk =
-        new THREE.Mesh(accretionDiskGeo, accretionDiskMaterial)
+    const geo = new THREE.CircleGeometry( Unit.FromAstroUnits(800), 32)
+    const circle = new THREE.Mesh( geo, accretionDiskMaterial )
+    circle.material.side = THREE.DoubleSide
+    Scene.add(circle)
 
-    // accretionDisk.position.x = 100
-    Scene.add(accretionDisk)
+    const geo2 = new THREE.CircleGeometry(Unit.FromAstroUnits(800), 32)
+    const circle2 = new THREE.Mesh( geo2, accretionDiskMaterial )
+    circle2.material.side = THREE.DoubleSide
+    circle2.rotation.x = Math.PI/2
+    Scene.add(circle2)
 
     animationTasks.push(() => {
-        // radians per frame
-        accretionDisk.rotation.x += 0.01
-        accretionDisk.rotation.y += 0.01 })
+        circle.rotation.z += 0.008
+        circle2.rotation.z += 0.008
+    })
 } initBlackHole()
